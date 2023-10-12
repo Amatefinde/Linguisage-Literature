@@ -1,3 +1,4 @@
+import os
 import shutil
 from datetime import datetime
 from sqlalchemy import select, delete
@@ -24,8 +25,14 @@ class LiteratureDAO:
 
     @classmethod
     async def add_user_literature(cls, literature: SLiterature, file: UploadFile):
-        literature_data = literature.model_dump()
+        file_extension = os.path.splitext(file.filename)[-1]
+        file_name = os.path.splitext(file.filename)[-2]
+        print("file_extension", file_extension)
+        print("file_name", file_name)
+        if file_extension != "pdf":
+            return {"error": "Only pdf files support now"}
 
+        literature_data = literature.model_dump()
         literature_data["add_date"] = datetime.utcnow()
         literature_data["last_use_date"] = None
         literature_data["parsed_literature_object"] = ""  # todo
@@ -51,7 +58,7 @@ class LiteratureDAO:
             if literature:
                 literature.last_use_date = datetime.utcnow()
                 await session.commit()
-
+        print(literature)
         return literature
 
     @classmethod
