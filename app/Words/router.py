@@ -12,7 +12,13 @@ router = APIRouter(
 async def add_word(word: SWord):
     """If 'word' already exist, but current 'meaning' or 'idioms' is new, then for 'word' will be added new 'meanings' or 'idioms'.
     If 'word', 'meaning' and 'idioms' already exists - will be nothing"""
-    return await WordDAO.add_world_manual(word)
+    return await WordDAO.add_word_manual(word)
+
+
+@router.get("/get")
+async def add_word(word: str):
+    """Return data for requested word"""
+    return await WordDAO.get_word(word)
 
 
 @router.get("/get_word_id")

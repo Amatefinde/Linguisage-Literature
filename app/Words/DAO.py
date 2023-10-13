@@ -2,6 +2,8 @@ import os
 import shutil
 from datetime import datetime
 from sqlalchemy import select, delete
+from sqlalchemy.orm import joinedload
+
 from app.database import async_session_maker
 import app.Words.models as models
 from .schemas import SWord
@@ -37,7 +39,7 @@ class WordDAO:
             return answer
 
     @classmethod
-    async def add_world_manual(cls, word: SWord):
+    async def add_word_manual(cls, word: SWord):
         async with async_session_maker() as session:
             word_id = await cls.get_word_id(word.content)
             if word_id:
@@ -66,7 +68,7 @@ class WordDAO:
                         await session.commit()
                         await session.refresh(db_meaning)
 
-                        #Выдвинуть на один уровень, что бы сделать в независимости от уже существования значения
+                        # Выдвинуть на один уровень, что бы сделать в независимости от уже существования значения
                         if meaning.examples:
                             for example in meaning.examples:
                                 db_example = models.Example(
@@ -107,3 +109,16 @@ class WordDAO:
                         await session.refresh(db_idiom)
             return word
 
+    @classmethod
+    async def get_word(cls, word: str):
+        async with async_session_maker() as session:
+            word_data = await session.execute(
+                select(models.Word)
+                .options(joinedload(models.Word.meanings).joinedload(models.Meaning.examples))
+                .options(joinedload(models.Word.meanings).joinedload(models.Meaning.collocations))
+                .options(joinedload(models.Word.idioms))
+                .filter(models.Word.content == word)
+            )
+            word = word_data.mappings().first()['Word']  # type: models.Word
+
+            return word
