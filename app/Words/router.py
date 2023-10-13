@@ -11,3 +11,10 @@ router = APIRouter(
 @router.post("/add")
 async def add_word(word: SWord):
     return await WordDAO.add_world_manual(word)
+
+
+@router.get("/hand_test")
+async def add_word():
+    return await WordDAO.add_test_collocation("ew")
+
+

@@ -10,17 +10,34 @@ class PrivacyType(str, Enum):
     not_verified = "not_verified"
 
 
+class Collocation(BaseModel):
+    title: str
+    body: List[str]
+
+
 class SMeaning(BaseModel):
     privacy: PrivacyType
-    definition: str
+    short_meaning: Optional[str] = ""
+    meaning: str
+    examples: Optional[List[str]] = list()
+
+    collocations: Optional[list[Collocation]] = list()
 
     class Config:
         from_attributes = True
 
 
+class Idiom(BaseModel):
+    content: str
+    label: str
+    explain: str
+    examples: Optional[List[str]]
+
+
 class SWord(BaseModel):
     content: str
-    meanings: Optional[List[SMeaning]] = list()
+    meanings: Optional[List[SMeaning]]
+    idioms: Optional[List[Idiom]]
 
     class Config:
         from_attributes = True
