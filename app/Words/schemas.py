@@ -29,9 +29,9 @@ class SMeaning(BaseModel):
 
 class Idiom(BaseModel):
     content: str
-    label: str
+    label: Optional[str] = ""
     explain: str
-    examples: Optional[List[str]]
+    examples: Optional[List[str]] = []
 
 
 class SWord(BaseModel):

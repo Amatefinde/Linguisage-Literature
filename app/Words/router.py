@@ -10,11 +10,25 @@ router = APIRouter(
 
 @router.post("/add")
 async def add_word(word: SWord):
+    """If 'word' already exist, but current 'meaning' or 'idioms' is new, then for 'word' will be added new 'meanings' or 'idioms'.
+    If 'word', 'meaning' and 'idioms' already exists - will be nothing"""
     return await WordDAO.add_world_manual(word)
 
 
-@router.get("/hand_test")
-async def add_word():
-    return await WordDAO.add_test_collocation("ew")
+@router.get("/get_word_id")
+async def add_word(word: str):
+    """For developers"""
+    return await WordDAO.get_word_id(word)
 
+
+@router.get("/get_word_meaning_id")
+async def add_word(word: str, meaning: str):
+    """For developers"""
+    return await WordDAO.get_word_meaning_id(word, meaning)
+
+
+@router.get("/get_word_idiom_id")
+async def add_word(word: str, idiom_content: str):
+    """For developers"""
+    return await WordDAO.get_word_meaning_id(word, idiom_content)
 
