@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, ForeignKey, JSON
+from typing import List
+
+from sqlalchemy import Column, Integer, String, JSON, ForeignKey
+from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from app.database import Base
 
@@ -6,13 +9,19 @@ from app.database import Base
 class Literature(Base):
     __tablename__ = "literature"
 
-    literature_id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, nullable=False)
-    title = Column(String, nullable=False)
-    add_date = Column(TIMESTAMP, nullable=True)
-    last_use_date = Column(TIMESTAMP, nullable=True)
-    original_literature_path = Column(String, nullable=False)
-    parsed_literature_object = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    original_literature_path: Mapped[str] = mapped_column(String, nullable=True)
 
-    class Config:
-        orm_mode = True
+    parsed_pages: Mapped[List["ParsedPage"]] = relationship(back_populates="literature", cascade="all, delete-orphan")
+
+
+class ParsedPage(Base):
+    __tablename__ = "parsed_page"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    number_page: Mapped[int] = mapped_column(Integer)
+    object: Mapped[JSON] = mapped_column(JSON)
+    image_path: Mapped[str] = mapped_column(String)
+    literature_id: Mapped[int] = mapped_column(ForeignKey("literature.id"))
+
+    literature: Mapped["Literature"] = relationship(back_populates="parsed_pages")
