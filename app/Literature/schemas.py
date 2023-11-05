@@ -3,5 +3,5 @@ from fastapi import UploadFile
 
 
 class SLiterature(BaseModel):
-    user_id: int
-    title: str
+    file: UploadFile
+    use_ocr: bool
