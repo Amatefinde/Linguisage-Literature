@@ -81,7 +81,6 @@ async def parse_pfd(
             #     cv2_image = cv2.putText(cv2_image, word["text"], (word["start"], word["bottom"]), font, fontScale, (0, 0, 200), 5, cv2.LINE_AA)
             # cv2_image = cv2.resize(cv2_image, None, fx=0.4, fy=0.4, interpolation=cv2.INTER_LINEAR)
             fullpath = path.join(static_path, literature_number)  + "_" + str(page.page_number) + ".png"
-            print("TextExtractor 84: ", fullpath)
             image.save(fullpath)
             parsed_pages.append(parsed_page)
 

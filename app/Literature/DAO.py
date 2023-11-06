@@ -81,7 +81,6 @@ class LiteratureDAO:
     async def delete_literature(cls, literature_id: int):
         async with async_session_maker() as session:
             selected_literature = await session.get(models.Literature, literature_id)
-            print("selected literature: ", selected_literature)
             if not selected_literature:
                 raise HTTPException(status_code=404, detail="Literature not found")
             try:

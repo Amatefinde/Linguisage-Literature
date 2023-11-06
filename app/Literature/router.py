@@ -50,4 +50,4 @@ async def delete_literature(literature_id: int):
     """Позволяет удалять литературу по id"""
 
     response = await LiteratureDAO.delete_literature(literature_id)
-    return Ht
+    return response
