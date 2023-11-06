@@ -8,6 +8,7 @@ import time
 import requests
 from config import static_path as static_path_default
 from app.Literature.DAO import LiteratureDAO
+from os import path
 
 
 def call_to_ocr(np_image, url='http://192.168.31.23:8007/parse_image'):
@@ -43,7 +44,7 @@ SCALE = 6
 async def parse_pfd(
         pdf_bytesio: io.BytesIO | str,
         literature_number: str | int,
-        static_path: str = static_path_default + "literature_pages",
+        static_path: str = path.join(static_path_default, "literature_pages"),
         use_ocr=False
 ) -> List[PageSchema]:
     parsed_pages = []
@@ -79,8 +80,8 @@ async def parse_pfd(
             #     cv2_image = cv2.rectangle(cv2_image, (word["start"], word["top"]), (word["end"], word["bottom"]), (255, 0, 0), 2)
             #     cv2_image = cv2.putText(cv2_image, word["text"], (word["start"], word["bottom"]), font, fontScale, (0, 0, 200), 5, cv2.LINE_AA)
             # cv2_image = cv2.resize(cv2_image, None, fx=0.4, fy=0.4, interpolation=cv2.INTER_LINEAR)
-            add_later = "." if static_path[0] in "/\\" else ""
-            fullpath = add_later + static_path + "/" + literature_number + "_" + str(page.page_number) + ".png"
+            fullpath = path.join(static_path, literature_number)  + "_" + str(page.page_number) + ".png"
+            print("TextExtractor 84: ", fullpath)
             image.save(fullpath)
             parsed_pages.append(parsed_page)
 
@@ -88,7 +89,7 @@ async def parse_pfd(
                 word_data=parsed_page,
                 literature_number=literature_number,
                 number_page=page.page_number,
-                image_path="static/literature_pages/" + literature_number + "_" + str(page.page_number) + ".png"
+                image_path="static\\literature_pages\\" + literature_number + "_" + str(page.page_number) + ".png"
             )
             if response_db != 200:
                 print("При добавлении информации в бд о странице произошла ошибка")

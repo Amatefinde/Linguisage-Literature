@@ -4,13 +4,14 @@ from app.Literature.schemas import SLiterature
 from app.Literature.LiteratureProcessing import TextExtraction
 import io
 from typing import Annotated
+
 router = APIRouter(
     prefix="/literature",
     tags=["Литература"]
 )
 
 
-@router.post("/uploadfile")
+@router.post("/add")
 async def add(file: UploadFile, use_ocr: bool):
     """Позволяет загружать PDF литературу. Возможно сразу же применять OCR
     (OCR работает медленно, манга наруты на 200 страниц - 15 минут).
@@ -44,3 +45,9 @@ async def get_pages(
     return data
 
 
+@router.delete("/delete")
+async def delete_literature(literature_id: int):
+    """Позволяет удалять литературу по id"""
+
+    response = await LiteratureDAO.delete_literature(literature_id)
+    return Ht
