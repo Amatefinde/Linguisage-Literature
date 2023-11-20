@@ -1,7 +1,7 @@
 import os
 import shutil
 from datetime import datetime
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, Select
 from sqlalchemy.orm import joinedload
 
 from app.database import async_session_maker
@@ -112,13 +112,35 @@ class WordDAO:
     @classmethod
     async def get_word(cls, word: str):
         async with async_session_maker() as session:
-            word_data = await session.execute(
+            word_data = await session.scalar(
                 select(models.Word)
                 .options(joinedload(models.Word.meanings).joinedload(models.Meaning.examples))
                 .options(joinedload(models.Word.meanings).joinedload(models.Meaning.collocations))
+                .options(joinedload(models.Word.meanings).joinedload(models.Meaning.images))
                 .options(joinedload(models.Word.idioms))
                 .filter(models.Word.content == word)
             )
-            word = word_data.mappings().first()['Word']  # type: models.Word
+            if word_data:
+                return word_data
 
-            return word
+    @classmethod
+    async def get_meaning_by_id(cls, meaning_id) -> models.Meaning | None:
+        async with async_session_maker() as session:
+            return await session.get(models.Meaning, meaning_id)
+
+    @classmethod
+    async def get_word_by_id(cls, word_id) -> models.Word | None:
+        async with async_session_maker() as session:
+            return await session.get(models.Word, word_id)
+
+    @classmethod
+    async def get_word_meaning_by_id(cls, meaning_id) -> models.Word | None:
+        async with async_session_maker() as session:
+            stmt = Select(models.Meaning).options(joinedload(models.Meaning.word)).filter(
+                models.Meaning.id == meaning_id)
+            return await session.scalar(stmt)
+
+    @classmethod
+    async def get_image_by_id(cls, image_id) -> models.Image | None:
+        async with async_session_maker() as session:
+            return await session.get(models.Image, image_id)

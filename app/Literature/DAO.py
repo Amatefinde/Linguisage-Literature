@@ -32,7 +32,8 @@ class LiteratureDAO:
                 return db_literature.id
             except Exception as Ex:
                 print(Ex)
-                raise HTTPException(500, "Что то пошло не так при сохранении файла")
+                raise HTTPException(500, f"Что то пошло не так при сохранении файла:  {str(Ex)}",)
+
 
     @classmethod
     async def add_page_for_literature(cls, word_data: dict, literature_number, number_page, image_path):

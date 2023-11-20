@@ -25,6 +25,8 @@ class Meaning(Base):
     word: Mapped["Word"] = relationship(back_populates="meanings")
     examples: Mapped[List["Example"]] = relationship(back_populates="meaning", cascade="all, delete-orphan")
     collocations: Mapped[List["Collocation"]] = relationship(back_populates="meaning", cascade="all, delete-orphan")
+    images: Mapped[List["Image"]] = relationship(back_populates="meaning", cascade="all, delete-orphan")
+
 
 
 class Example(Base):
@@ -56,4 +58,14 @@ class Idiom(Base):
     examples: Mapped[str] = mapped_column(String)
 
     word: Mapped["Word"] = relationship(back_populates="idioms")
+
+
+class Image(Base):
+    __tablename__ = "image"
+    content: Mapped[str]
+    privacy: Mapped[str]
+    meaning_id: Mapped[int] = mapped_column(ForeignKey("meaning.id"))
+
+    meaning: Mapped["Meaning"] = relationship(back_populates="images")
+
 
