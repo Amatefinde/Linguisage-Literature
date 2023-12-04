@@ -38,7 +38,6 @@ class LiteratureDAO:
     @classmethod
     async def add_page_for_literature(cls, word_data: dict, literature_number, number_page, image_path):
         async with async_session_maker() as session:
-            print(literature_number)
             db_literature = await session.get(models.Literature, int(literature_number))
 
             db_parsed_page = models.ParsedPage(
@@ -76,7 +75,7 @@ class LiteratureDAO:
                     "img": path.join(static_access_http_path, i.image_path)
                 })
 
-            return pages
+            return sorted(pages, key=lambda x: x["number_page"])
 
     @classmethod
     async def delete_literature(cls, literature_id: int):
