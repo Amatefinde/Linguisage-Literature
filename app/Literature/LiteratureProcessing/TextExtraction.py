@@ -12,9 +12,10 @@ from aiohttp import ClientTimeout
 from config import static_path as static_path_default
 from app.Literature.DAO import LiteratureDAO
 from os import path
+import config
 
 
-async def call_to_ocr(np_image, url='http://192.168.31.23:8007/parse_image'):
+async def call_to_ocr(np_image, url=f'{config.neural_module_url}/parse_image'):
     start_time_ocr = time.time()
     _, img_encoded = cv2.imencode(".jpg", np_image)
     data = aiohttp.FormData()
