@@ -11,4 +11,4 @@ DB_PASS = os.environ.get("DB_PASS")
 
 
 static_path = "app/static"
-static_access_http_path = r"http://93.81.252.160:4444/"
+static_access_http_path = os.environ.get("SERVER_HTTP")
