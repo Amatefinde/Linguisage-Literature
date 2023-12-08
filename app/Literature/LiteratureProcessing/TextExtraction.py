@@ -1,6 +1,4 @@
 import asyncio
-import json
-
 import aiohttp
 import cv2
 import pdfplumber
@@ -8,7 +6,7 @@ import io
 import numpy as np
 from typing import TypedDict, List
 import time
-import requests
+
 from aiohttp import ClientTimeout
 
 from config import static_path as static_path_default
