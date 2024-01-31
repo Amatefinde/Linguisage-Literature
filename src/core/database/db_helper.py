@@ -1,4 +1,5 @@
 import asyncio
+from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
@@ -25,7 +26,7 @@ class DatabaseHelper:
         )
         return async_session
 
-    async def session_dependency(self) -> AsyncSession:
+    async def session_dependency(self) -> AsyncGenerator[AsyncSession, None]:
         session = self.get_scoped_session()
         yield session
         await session.remove()

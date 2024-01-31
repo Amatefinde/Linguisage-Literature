@@ -8,16 +8,20 @@ router = APIRouter(prefix="/document", tags=["Documents"])
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def add_document(
     file: UploadFile,
-    filename: Annotated[bool, Form()] = None,
+    filename: Annotated[str, Form()],
     use_ocr: Annotated[bool, Form()] = False,
 ):
     """Endpoint for PDF uploading"""
-    _filename, file_extension = os.path.splitext(file.filename)
-    if file_extension.lower() != ".pdf":
-        raise HTTPException(
-            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-            detail="this endpoint supporting only PDF files, for upload fb2 or epub use /book",
-        )
-    filename = filename or _filename
+
+    exception = HTTPException(
+        status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        detail="this endpoint supporting only PDF files, for upload fb2 or epub use /book",
+    )
+    if type(file.filename) is str:
+        _, file_extension = os.path.splitext(file.filename)
+    else:
+        raise exception
+    if not file_extension or file_extension.lower() not in (".epub", ".fb2"):
+        raise exception
     # todo
     return filename
