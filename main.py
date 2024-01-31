@@ -1,9 +1,13 @@
+import os
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from app.Literature.router import router as literature_router
+
+from src.api_v1 import router as api_v1_router
 from fastapi.middleware.cors import CORSMiddleware
 
+
 app = FastAPI()
+
 
 origins = [
     "http://192.168.31.23:3000",
@@ -12,6 +16,7 @@ origins = [
     "http://localhost:3000",
     "http://192.168.31.1:0000",
 ]
+
 
 headers = [
     "Authorization",
@@ -30,14 +35,18 @@ headers = [
 
 method = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
 
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+#     allow_headers=headers,
+# )
+#
+# app.mount(
+#     "/static",
+#     StaticFiles(directory="app/static"),
+#     name="static",
+# )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=headers,
-)
-
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-app.include_router(literature_router)
+app.include_router(api_v1_router)
