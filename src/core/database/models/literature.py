@@ -8,9 +8,10 @@ from src.core.database import Base
 
 class Literature(Base):
     __abstract__ = True
-    cover: Mapped[str]
+    cover: Mapped[str | None]
     title: Mapped[str]
-    original_pdf: Mapped[str]
+    is_processed: Mapped[bool]
+    original_file: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.utcnow(),
         server_default=func.now(),
