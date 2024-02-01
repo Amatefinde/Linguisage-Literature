@@ -1,0 +1,2 @@
+2024-02-01T12:14:03.611+0300	DEBUG	fb2c/main.go:109	Program started	{"args": ["C:\\Users\\AMDisPOWER\\PycharmProjects\\Linguisage-Literature\\src\\utils\\fb2_converter\\fb2c_win64\\fb2converter\\fb2c.exe", "export", "."], "ver": "1.74.1 (go1.21.5 X:loopvar) : 5a51dd14d7df0f93058baaca65a1e94293dd40f3"}
+2024-02-01T12:14:03.616+0300	DEBUG	fb2c/main.go:155	Program ended	{"parsed args": ["export", "."]}
