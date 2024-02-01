@@ -1,4 +1,5 @@
 import os
+from os.path import join
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -23,9 +24,12 @@ class Settings(BaseSettings):
     def db_url(self) -> str:
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    base_dir: Path = BASE_DIR
-
     api_v1_prefix: str = "/api/v1"
+
+    base_dir: Path = BASE_DIR
+    abs_static_path: str = join(BASE_DIR, os.environ.get("STATIC_PATH"))
+    epub_dir: str = join(abs_static_path, "epubs")
+    epub_cover_dir: str = join(abs_static_path, "epub_covers")
 
 
 settings = Settings()
