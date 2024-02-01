@@ -1,8 +1,11 @@
+from os.path import join
+
 from src.utils.fb2_converter import convert
 import platform
+from src.core import settings
 
 if __name__ == "__main__":
 
-    fb = r"C:\Users\AMDisPOWER\PycharmProjects\Linguisage-Literature\src\utils\voina-i-mir.fb2"
-    epub = r"C:\Users\AMDisPOWER\PycharmProjects\Linguisage-Literature\sandbox"
+    fb = join(settings.base_dir, r"src\utils\voina-i-mir.fb2")
+    epub = join(settings.base_dir, r"sandbox")
     convert(fb, epub)
