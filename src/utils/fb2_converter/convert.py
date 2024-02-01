@@ -26,4 +26,4 @@ def convert(fb_abs_path: str | Path, output_dir: str | Path) -> None:
     )
 
     command = f"{fb2c_path} -c {conf_path} convert --to epub {fb_abs_path} {output_dir}"
-    result = subprocess.run(command, cwd="~")
+    result = subprocess.run(command)
