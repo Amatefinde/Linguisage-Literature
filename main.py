@@ -4,10 +4,11 @@ from fastapi.staticfiles import StaticFiles
 
 from src.api_v1 import router as api_v1_router
 from fastapi.middleware.cors import CORSMiddleware
+from src.utils import make_static_folders
 
 
+make_static_folders()
 app = FastAPI()
-
 
 origins = [
     "http://192.168.31.23:3000",
@@ -16,7 +17,6 @@ origins = [
     "http://localhost:3000",
     "http://192.168.31.1:0000",
 ]
-
 
 headers = [
     "Authorization",
