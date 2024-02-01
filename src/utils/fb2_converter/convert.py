@@ -22,7 +22,7 @@ def convert(fb_abs_path: str | Path, output_dir: str | Path) -> None:
     )
     conf_path = join(
         settings.base_dir,
-        fb2c,
+        "src/utils/fb2_converter/fb2c_win64/fb2converter/configuration.toml",
     )
 
     command = f"{fb2c_path} -c {conf_path} convert --to epub {fb_abs_path} {output_dir}"
