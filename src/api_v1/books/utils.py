@@ -1,9 +1,12 @@
+import os
+
 from PIL.Image import Image
 from fastapi import UploadFile
 from os.path import join
 from uuid import uuid4
 
 from src.core import settings
+from src.core.database.models import LiteratureEpub
 from src.utils import extract_cover_from_epub
 
 
@@ -22,3 +25,19 @@ def _save_book_cover_to_disk(book: UploadFile) -> str:
     file_path = join(settings.epub_cover_dir, file_name)
     cover.save(file_path, "JPEG", quality=95)
     return file_name
+
+
+def _remove_book_cover(book: LiteratureEpub):
+    if book.cover:
+        book_cover_path = join(settings.epub_cover_dir, str(book.cover))
+        os.remove(book_cover_path)
+
+
+def _remove_book_from_disk(
+    book: LiteratureEpub,
+    remove_cover=True,
+) -> None:
+    book_path = join(settings.epub_dir, book.original_file)
+    os.remove(book_path)
+    if remove_cover:
+        _remove_book_cover(book)
