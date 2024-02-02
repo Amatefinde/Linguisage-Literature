@@ -24,6 +24,7 @@ ebookmeta = "^1.2.11"
 celery = "^5.3.6"
 redis = "^5.0.1"
 flower = "^2.0.1"
+sqladmin = "^0.16.0"
 
 
 [tool.poetry.group.dev.dependencies]
