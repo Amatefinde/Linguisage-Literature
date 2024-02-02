@@ -12,7 +12,7 @@ then activate it `source venv/bin/activate`
 4. Install requirements `poetry install`
 5. Make folder for logs `mkdir logs`
 6. Run uvicorn or gunicorn:
-    - for debug and development `nohup uvicorn main:app --host 0.0.0.0 --port 9200 --reload --ssl-keyfile /etc/letsencrypt/live/lenya.papiros.volsk.cloudns.biz/privkey.pem --ssl-certfile /etc/letsencrypt/live/lenya.papiros.volsk.cloudns.biz/fullchain.pem > uvicorn.log 2>&1 &`
+    - for debug and development `nohup uvicorn main:app --host 0.0.0.0 --port 9200 --reload --ssl-keyfile /etc/letsencrypt/live/lenya.papiros.volsk.cloudns.biz/privkey.pem --ssl-certfile /etc/letsencrypt/live/lenya.papiros.volsk.cloudns.biz/fullchain.pem > logs/uvicorn.log 2>&1 &`
     - for production `todo`
 7. Make sure that redis is installed in your system. 
 Then run celery (background tasks): `nohup celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue > logs/celery.txt 2>&1 &`
