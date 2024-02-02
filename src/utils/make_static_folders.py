@@ -16,3 +16,6 @@ def make_static_folders() -> None:
 
     if not isdir(settings.epub_cover_dir):
         mkdir(settings.epub_cover_dir)
+
+    if not isdir(settings.fb2_tmp):
+        mkdir(settings.fb2_tmp)
