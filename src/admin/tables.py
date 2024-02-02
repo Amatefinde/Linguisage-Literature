@@ -12,6 +12,7 @@ class AdminLiteratureEpub(ModelView, model=LiteratureEpub):
     column_list = [
         LiteratureEpub.id,
         LiteratureEpub.title,
+        LiteratureEpub.is_processed,
         LiteratureEpub.created_at,
         LiteratureEpub.last_opened_at,
     ]
