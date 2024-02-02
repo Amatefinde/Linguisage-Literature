@@ -6,7 +6,7 @@ from pathlib import Path
 from src.core import settings
 
 
-def convert(fb_abs_path: str | Path, output_dir: str | Path) -> None:
+def save_fb2_as_epub(fb_abs_path: str | Path, output_dir: str | Path) -> None:
     system_platform = platform.system()
 
     if system_platform == "Linux":
