@@ -10,12 +10,23 @@ from src.core.database.models import LiteratureEpub
 from src.utils import extract_cover_from_epub
 
 
-def _save_book_to_disk(book: UploadFile) -> str:
+def _save_epub_to_disk(book: UploadFile) -> str:
+    """return filename with extension!"""
     file_name = f"{str(uuid4())}.epub"
     file_path = join(settings.epub_dir, file_name)
     with open(file_path, "wb") as disk_file:
         disk_file.write(book.file.read())
     return file_name
+
+
+def _save_fb2_in_tmp(book: UploadFile) -> str:
+    """return filename without extension!"""
+    name_without_ext = str(uuid4())
+    file_name = f"{name_without_ext}.fb2"
+    file_path = join(settings.fb2_tmp, file_name)
+    with open(file_path, "wb") as disk_file:
+        disk_file.write(book.file.read())
+    return name_without_ext
 
 
 def _save_book_cover_to_disk(book: UploadFile) -> str:
