@@ -44,9 +44,9 @@ def __handle_epub3(t):
 
 def __handle_other_cases(t, root_file_path, z):
     try:
-        cover_page_id = t.xpath("//opf:spine/opf:itemref", namespaces=NAMESPACES)[
-            0
-        ].get("idref")
+        cover_page_id = t.xpath("//opf:spine/opf:itemref", namespaces=NAMESPACES)[0].get(
+            "idref"
+        )
         cover_page_href = t.xpath(
             "//opf:manifest/opf:item[@id='" + cover_page_id + "']",
             namespaces=NAMESPACES,
@@ -72,7 +72,7 @@ def __find_cover_href(lxml_tree, root_file_path, zip_file):
 
 def extract_cover_from_epub(
     epub: str | os.PathLike[str] | IO[bytes],
-) -> Image.Image:
+) -> Image.Image | None:
     with zipfile.ZipFile(epub) as zip_file:
         lxml_tree = etree.fromstring(zip_file.read("META-INF/container.xml"))
         root_file_path = lxml_tree.xpath(
