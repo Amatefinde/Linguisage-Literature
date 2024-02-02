@@ -16,7 +16,9 @@ class SEpubResponse(BaseModel):
     last_read_position: int | None = None
 
     @field_serializer("cover")
-    def serialize_cover_for_url(self, cover: str):
+    def serialize_cover_for_url(self, cover: str | None):
+        if cover is None:
+            return None
         return join(
             settings.base_url, settings.static_path, "epub_covers", cover
         ).replace("\\", "/")
