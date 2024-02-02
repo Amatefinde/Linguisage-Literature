@@ -32,9 +32,13 @@ async def add(
         _, file_extension = os.path.splitext(book.filename)
     else:
         raise exception
-    if not file_extension or file_extension.lower() not in (".epub", ".fb2"):
+
+    if file_extension == ".epub":
+        db_book = await crud.add_epub_book(db_session, book, filename)
+    elif file_extension == ".fb2":
+        db_book = await crud.add_fb2_book(db_session, book, filename)
+    else:
         raise exception
-    db_book = await crud.add_book(db_session, book, filename)
     return db_book
 
 
