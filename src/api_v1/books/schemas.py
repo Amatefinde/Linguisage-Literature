@@ -1,16 +1,31 @@
 from datetime import datetime
+from os.path import join
 
-from pydantic import BaseModel, Field
+from src.core import settings
+from pydantic import BaseModel, Field, field_serializer
 
 
 class SEpubResponse(BaseModel):
+    id: int
     title: str
-    last_opened_at: datetime | None = None
+    is_processed: bool
     cover: str | None = None
     original_file: str
-    last_read_position: int | None = None
     created_at: datetime
-    id: int
+    last_opened_at: datetime | None = None
+    last_read_position: int | None = None
+
+    @field_serializer("cover")
+    def serialize_cover_for_url(self, cover: str):
+        return join(
+            settings.base_url, settings.static_path, "epub_covers", cover
+        ).replace("\\", "/")
+
+    @field_serializer("original_file")
+    def serialize_file_for_url(self, original_file: str):
+        return join(
+            settings.base_url, settings.static_path, "epubs", original_file
+        ).replace("\\", "/")
 
 
 class SPatchRequest(BaseModel):
