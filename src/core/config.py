@@ -27,9 +27,13 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
 
     base_dir: Path = BASE_DIR
+    static_path: str
     abs_static_path: str = join(BASE_DIR, os.environ.get("STATIC_PATH"))
     epub_dir: str = join(abs_static_path, "epubs")
+    fb2_tmp: str = join(abs_static_path, "fb2_tmp")
     epub_cover_dir: str = join(abs_static_path, "epub_covers")
+
+    base_url: str
 
 
 settings = Settings()
