@@ -31,6 +31,7 @@ async def update_epub_db(
 def handle_fb2(filename_without_ext: str, book_id: int):
     fb2_filepath = str(join(settings.fb2_tmp, f"{filename_without_ext}.fb2"))
     save_fb2_as_epub(fb2_filepath, settings.epub_dir)
+    logger.debug(f"converted epub saved to {settings.epub_dir}")
     os.remove(fb2_filepath)
 
     epub_filename = f"{filename_without_ext}.epub"
