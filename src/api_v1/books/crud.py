@@ -77,3 +77,4 @@ async def update_partial_book(
 async def delete_book(session: AsyncSession, book: LiteratureEpub) -> None:
     _remove_book_from_disk(book)
     await session.delete(book)
+    await session.commit()
