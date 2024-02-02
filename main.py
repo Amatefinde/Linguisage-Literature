@@ -4,11 +4,14 @@ from fastapi.staticfiles import StaticFiles
 
 from src.api_v1 import router as api_v1_router
 from fastapi.middleware.cors import CORSMiddleware
+
+from src.core import settings
 from src.utils import make_static_folders
 
 
 make_static_folders()
 app = FastAPI()
+app.title = "Linguisage Literature"
 
 origins = [
     "http://192.168.31.23:3000",
@@ -43,10 +46,11 @@ method = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
 #     allow_headers=headers,
 # )
 #
-# app.mount(
-#     "/static",
-#     StaticFiles(directory="app/static"),
-#     name="static",
-# )
+app.mount(
+    "/static",
+    StaticFiles(directory=settings.static_path),
+    name="static_files",
+)
+
 
 app.include_router(api_v1_router)
