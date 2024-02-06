@@ -14,7 +14,7 @@ router = APIRouter(prefix="/books", tags=["Books"])
 
 
 @router.post(
-    "/",
+    "",
     response_model=SEpubResponse,
     status_code=status.HTTP_201_CREATED,
 )
