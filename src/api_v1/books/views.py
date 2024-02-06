@@ -19,7 +19,7 @@ router = APIRouter(prefix="/books", tags=["Books"])
     status_code=status.HTTP_201_CREATED,
 )
 async def add(
-    book: UploadFile,
+    file: UploadFile,
     filename: Annotated[str, Form()],
     db_session: AsyncSession = Depends(db_helper.session_dependency),
 ):
@@ -28,15 +28,15 @@ async def add(
         status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         detail="this endpoint supporting only fb2 and ePub files, for upload PDF use /document",
     )
-    if type(book.filename) is str:
-        _, file_extension = os.path.splitext(book.filename)
+    if type(file.filename) is str:
+        _, file_extension = os.path.splitext(file.filename)
     else:
         raise exception
 
     if file_extension == ".epub":
-        db_book = await crud.add_epub_book(db_session, book, filename)
+        db_book = await crud.add_epub_book(db_session, file, filename)
     elif file_extension == ".fb2":
-        db_book = await crud.add_fb2_book(db_session, book, filename)
+        db_book = await crud.add_fb2_book(db_session, file, filename)
     else:
         raise exception
     return db_book
