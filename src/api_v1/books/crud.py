@@ -1,4 +1,8 @@
+from typing import Sequence, Iterable
+
 from fastapi import UploadFile
+from sqlalchemy import select
+
 from src.background_tasks import handle_fb2
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -78,3 +82,10 @@ async def delete_book(session: AsyncSession, book: LiteratureEpub) -> None:
     _remove_book_from_disk(book)
     await session.delete(book)
     await session.commit()
+
+
+async def get_many_books(
+    session: AsyncSession, book_ids: list[int]
+) -> Iterable[LiteratureEpub]:
+    stmt = select(LiteratureEpub).where(LiteratureEpub.id.in_(book_ids))
+    return await session.scalars(stmt)

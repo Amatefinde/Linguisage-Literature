@@ -1,6 +1,6 @@
 import os
 from typing import Annotated
-from fastapi import APIRouter, UploadFile, HTTPException, status, Form, Depends
+from fastapi import APIRouter, UploadFile, HTTPException, status, Form, Depends, Query
 from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -40,6 +40,18 @@ async def add(
     else:
         raise exception
     return db_book
+
+
+@router.get(
+    "/many",
+    # response_model=SEpubResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get(
+    literature_ids: Annotated[list[int], Query()],
+    db_session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await crud.get_many_books(db_session, literature_ids)
 
 
 @router.get(
