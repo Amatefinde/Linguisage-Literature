@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.core.database.models import LiteratureEpub
 from src.core.database import db_helper
 from . import crud
-from .schemas import SEpubResponse, SPatchRequest
+from .schemas import SEpubResponse, SPatchRequest, ManyBookResponse
 from . import dependencies
 
 router = APIRouter(prefix="/books", tags=["Books"])
@@ -44,14 +44,19 @@ async def add(
 
 @router.get(
     "/many",
-    # response_model=SEpubResponse,
+    response_model=ManyBookResponse,
     status_code=status.HTTP_200_OK,
 )
-async def get(
-    literature_ids: Annotated[list[int], Query()],
+async def get_many_books(
+    literature_ids: list[int] = Query(default_factory=list, alias="id"),
     db_session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    return await crud.get_many_books(db_session, literature_ids)
+    row_books = await crud.get_many_books(db_session, literature_ids)
+    books = []
+    for book in row_books:
+        model_book = SEpubResponse.model_validate(book, from_attributes=True)
+        books.append(model_book)
+    return ManyBookResponse(books=books)
 
 
 @router.get(
