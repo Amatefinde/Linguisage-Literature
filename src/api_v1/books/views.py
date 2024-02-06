@@ -43,7 +43,7 @@ async def add(
 
 
 @router.get(
-    "/many",
+    "",
     response_model=ManyBookResponse,
     status_code=status.HTTP_200_OK,
 )
