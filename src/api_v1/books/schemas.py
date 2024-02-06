@@ -32,3 +32,7 @@ class SEpubResponse(BaseModel):
 
 class SPatchRequest(BaseModel):
     title: str
+
+
+class ManyBookResponse(BaseModel):
+    books: list[SEpubResponse] = Field(default_factory=list)
