@@ -1,8 +1,9 @@
 version: '3.7'
 services:
-  literature:
+  app:
     environment:
       - DB_HOST=postgres_db
+      - REDIS_HOST=redis
     build:
       context: .
     container_name: 'literature_microservice'
@@ -12,6 +13,8 @@ services:
     ports:
       - "9200:9200"
       - "5555:5555"
+    volumes:
+      - E:\Linguisage\Linguisage-Literature\static:/code/static
 
 
   postgres_db:
@@ -25,4 +28,15 @@ services:
 
   redis:
     image: redis:7.2.4
+
+  celery:
+    environment:
+      - REDIS_HOST=redis
+    build:
+      context: .
+    command: "celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue"
+    depends_on:
+      - redis
+    volumes:
+      - E:\Linguisage\Linguisage-Literature\static:/code/static
 
