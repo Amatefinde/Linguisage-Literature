@@ -12,7 +12,6 @@ services:
       - redis
     ports:
       - "9200:9200"
-      - "5555:5555"
     volumes:
       - E:\Linguisage\Linguisage-Literature\static:/code/static
 
@@ -40,3 +39,11 @@ services:
     volumes:
       - E:\Linguisage\Linguisage-Literature\static:/code/static
 
+  flower:
+    environment:
+      - REDIS_HOST=redis
+    build:
+      context: .
+    command: "celery -A src.background_tasks.celery:celery flower"
+    ports:
+      - "9205:5555"
