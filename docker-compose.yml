@@ -13,7 +13,7 @@ services:
     ports:
       - "9200:9200"
     volumes:
-      - E:\Linguisage\Linguisage-Literature\static:/code/static
+      - ${VOLUME_STATIC}:/code/static
 
 
   postgres_db:
@@ -24,6 +24,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
     ports:
       - "5432:5432"
+    volumes:
+      - ${VOLUME_DB}:/var/lib/postgresql/data
 
   redis:
     image: redis:7.2.4
@@ -37,7 +39,7 @@ services:
     depends_on:
       - redis
     volumes:
-      - E:\Linguisage\Linguisage-Literature\static:/code/static
+      - ${VOLUME_STATIC}:/code/static
 
   flower:
     environment:
