@@ -7,9 +7,15 @@ pipeline {
       }
     }
 
-    stage('Log files') {
+    stage('Build') {
       steps {
-        sh 'ls -la'
+        sh 'docker compose build'
+      }
+    }
+
+    stage('Run') {
+      steps {
+        sh 'docker compose run'
       }
     }
 
