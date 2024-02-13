@@ -33,6 +33,7 @@ services:
   celery:
     environment:
       - REDIS_HOST=redis
+      - DB_HOST=postgres_db
     build:
       context: .
     command: "celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue"
@@ -44,6 +45,7 @@ services:
   flower:
     environment:
       - REDIS_HOST=redis
+      - DB_HOST=postgres_db
     build:
       context: .
     command: "celery -A src.background_tasks.celery:celery flower"
