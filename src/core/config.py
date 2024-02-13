@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     epub_cover_dir: str = join(abs_static_path, "epub_covers")
 
     base_url: str
+    REDIS_HOST: str
 
 
 settings = Settings()
