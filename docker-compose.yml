@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  literature:
+    environment:
+      - DB_HOST=postgres_db
+    build:
+      context: .
+    container_name: 'literature_microservice'
+    depends_on:
+      - postgres_db
+      - redis
+    ports:
+      - "9200:9200"
+      - "5555:5555"
+
+
+  postgres_db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7.2.4
+
