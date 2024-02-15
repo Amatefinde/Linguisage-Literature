@@ -30,5 +30,6 @@ RUN poetry install
 COPY . .
 
 RUN chmod +x app_entry_point.sh
+RUN chmod a+x src/utils/fb2_converter/fb2c
 
-CMD ["/code/app_entry_point.sh"]
+CMD ["/literature/app_entry_point.sh"]
