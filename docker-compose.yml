@@ -13,7 +13,7 @@ services:
     ports:
       - "9200:9200"
     volumes:
-      - ${VOLUME_STATIC}:/code/static
+      - ${VOLUME_STATIC}:/literature/static
 
 
   postgres_db:
@@ -37,12 +37,12 @@ services:
     build:
       context: .
     command:
-      - "chmod a+x src/utils/fb2_converter/fb2c"
+      - "chmod a+x /literature/src/utils/fb2_converter/fb2c"
       - "celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue"
     depends_on:
       - redis
     volumes:
-      - ${VOLUME_STATIC}:/code/static
+      - ${VOLUME_STATIC}:/literature/static
 
   flower:
     environment:

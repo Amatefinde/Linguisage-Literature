@@ -21,8 +21,8 @@ ENV YOUR_ENV=${YOUR_ENV} \
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-WORKDIR /code
-COPY poetry.lock pyproject.toml /code/
+WORKDIR /literature
+COPY poetry.lock pyproject.toml /literature/
 
 
 RUN poetry install
