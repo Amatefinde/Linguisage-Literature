@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from sqladmin import Admin
@@ -17,7 +17,6 @@ app.title = "Literature"
 app.summary = (
     "One of Linguisage microservices that have response for literature management"
 )
-
 
 origins = [
     "http://192.168.31.23:3000",
@@ -58,6 +57,11 @@ app.mount(
     name="static_files",
 )
 app.include_router(api_v1_router)
+
+
+@app.get("/get_error")
+async def get_error():
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Test error")
 
 
 admin = Admin(app, engine=db_helper.engine)

@@ -1,2 +1,3 @@
 /src/static/
 .env
+/db_volume/
