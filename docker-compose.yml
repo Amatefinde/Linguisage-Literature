@@ -36,7 +36,9 @@ services:
       - DB_HOST=postgres_db
     build:
       context: .
-    command: "chmod a+x src/utils/fb2_converter/fb2c && celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue"
+    command:
+      - "chmod a+x src/utils/fb2_converter/fb2c"
+      - "celery -A src.background_tasks.celery:celery worker --loglevel=INFO -n literature -Q lite_queue"
     depends_on:
       - redis
     volumes:
