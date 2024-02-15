@@ -59,9 +59,9 @@ app.mount(
 app.include_router(api_v1_router)
 
 
-@app.get("/get_error")
-async def get_error():
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Test error")
+# @app.get("/get_error")
+# async def get_error():
+#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Test error")
 
 
 admin = Admin(app, engine=db_helper.engine)
