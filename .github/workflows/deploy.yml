@@ -17,3 +17,5 @@ jobs:
           cd ${{ secrets.WORK_DIR }}
           git checkout master
           git pull
+          docker compose down
+          docker compose up -d
