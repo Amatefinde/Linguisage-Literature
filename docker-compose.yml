@@ -14,6 +14,7 @@ services:
       - "9200:9200"
     volumes:
       - ${VOLUME_STATIC}:/literature/static
+      - /etc/letsencrypt:/literature/letsencrypt
 
 
   postgres_db:
@@ -26,7 +27,6 @@ services:
       - "5432:5432"
     volumes:
       - ${VOLUME_DB}:/var/lib/postgresql/data
-      - /etc/letsencrypt:/literature/letsencrypt
 
   redis:
     image: redis:7.2.4
