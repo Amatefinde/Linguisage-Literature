@@ -1,7 +1,5 @@
-import os
 from fastapi import FastAPI, HTTPException, status
 from fastapi.staticfiles import StaticFiles
-from contextlib import asynccontextmanager
 from sqladmin import Admin
 from fastapi.middleware.cors import CORSMiddleware
 from src.api_v1 import router as api_v1_router
@@ -19,11 +17,9 @@ app.summary = (
 )
 
 origins = [
-    "http://192.168.31.23:3000",
-    "http://93.81.252.160:8001",
-    "http://93.81.252.160:7777",
-    "http://localhost:3000",
-    "http://192.168.31.1:0000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://linguisage.ru",
 ]
 
 headers = [
@@ -41,22 +37,20 @@ headers = [
     "Access-Control-Allow-Origin",
 ]
 
-method = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-#     allow_headers=headers,
-# )
-#
 app.mount(
     "/static",
     StaticFiles(directory=settings.static_path),
     name="static_files",
 )
 app.include_router(api_v1_router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=headers,
+)
 
 
 @app.get("/get_error")
