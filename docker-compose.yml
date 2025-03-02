@@ -15,6 +15,7 @@ services:
     volumes:
       - ${VOLUME_STATIC}:/literature/static
       - /etc/letsencrypt:/literature/letsencrypt
+    restart: unless-stopped
 
   postgres_db:
     image: postgres:15
@@ -26,9 +27,11 @@ services:
       - "5432:5432"
     volumes:
       - ${VOLUME_DB}:/var/lib/postgresql/data
+    restart: unless-stopped
 
   redis:
     image: redis:7.2.4
+    restart: unless-stopped
 
   celery:
     environment:
@@ -41,6 +44,7 @@ services:
       - redis
     volumes:
       - ${VOLUME_STATIC}:/literature/static
+    restart: unless-stopped
 
   flower:
     environment:
@@ -51,3 +55,4 @@ services:
     command: "celery -A src.background_tasks.celery:celery flower"
     ports:
       - "9205:5555"
+    restart: unless-stopped
