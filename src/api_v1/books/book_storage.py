@@ -29,8 +29,10 @@ def _save_fb2_in_tmp(book: UploadFile) -> str:
     return name_without_ext
 
 
-def _save_book_cover_to_disk(book: UploadFile) -> str:
+def _save_book_cover_to_disk(book: UploadFile) -> str | None:
     cover: Image = extract_cover_from_epub(book.file)
+    if cover is None:
+        return None
     cover.thumbnail((512, 512))
     file_name = f"{str(uuid4())}.jpeg"
     file_path = join(settings.epub_cover_dir, file_name)

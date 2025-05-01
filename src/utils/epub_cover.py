@@ -80,6 +80,9 @@ def extract_cover_from_epub(
         )[0].get("full-path")
         lxml_tree = etree.fromstring(zip_file.read(root_file_path))
         cover_href = __find_cover_href(lxml_tree, root_file_path, zip_file)
+        if cover_href is None:
+            return None  # или вызвать ошибку, если это критично
+
         cover_path = os.path.join(
             str(os.path.dirname(root_file_path)),
             cover_href,
