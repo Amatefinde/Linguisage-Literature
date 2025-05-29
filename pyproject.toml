@@ -25,6 +25,9 @@ celery = "^5.3.6"
 redis = "^5.0.1"
 flower = "^2.0.1"
 sqladmin = "^0.16.0"
+pypandoc = "^1.15"
+pdf2docx = "^0.5.8"
+pandoc = "^2.4"
 
 
 [tool.poetry.group.dev.dependencies]
