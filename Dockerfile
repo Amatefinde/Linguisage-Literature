@@ -1,6 +1,8 @@
 FROM python:3.11
 LABEL authors="Amatefinde"
 
+RUN apt-get update && apt-get install -y libgl1
+
 ARG YOUR_ENV
 
 ENV YOUR_ENV=${YOUR_ENV} \
